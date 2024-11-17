@@ -1,0 +1,6 @@
+venv/
+**.txt
+**/node_modules/**
+**/.next/**
+**/.idea/**
+!website/public/*
