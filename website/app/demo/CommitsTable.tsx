@@ -47,7 +47,7 @@ const CommitRow = ({ commit, author, message }: CommitRowProps) => {
   for (let j = 0; j < y.length; j++) {
     
 
-    const token = "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"; 
+    const token = "<gh token>"; 
 
 
     await fetch("https://main-server.gitfile.tech/proxy", {

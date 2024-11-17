@@ -56,7 +56,7 @@ app.post('/git-update', (req, res) => {
 
 
   app.post('/proxy', (req, res) => {
-    const token = "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"; 
+    const token = "<gh token>"; 
     const headersA = { Authorization: `Bearer ${token}`, method: 'GET', 'X-GitHub-Api-Version': '2022-11-28' };
     const { url, method = 'GET', headers = {}, data = {} } = req.body;
 
