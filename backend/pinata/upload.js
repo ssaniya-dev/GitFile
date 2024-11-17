@@ -29,7 +29,9 @@ async function uploadToPinata(sourcePath) {
                 const stat = await fs.stat(filePath);
 
                 if (stat.isDirectory()) {
+                    if (file == '.git') {
                     filePaths.push(...(await getAllFiles(filePath)));
+                    }
                 } else {
                     filePaths.push(filePath);
                 }
@@ -46,7 +48,16 @@ async function uploadToPinata(sourcePath) {
         for (const filePath of files) {
             const formData = new FormData();
             
-            const relativePath = path.relative(sourcePath, filePath);
+            let relativePath = path.relative(sourcePath, filePath);
+            
+            // Rename ".git" to "git" in every layer of the folder directory
+            relativePath = relativePath.split(path.sep).map(part => {
+                if (part === '.git') {
+                    return 'git';
+                }
+                return part;
+            }).join(path.sep);
+            
             const content = await fs.readFile(filePath);
             
             formData.append('file', content, {
