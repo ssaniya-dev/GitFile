@@ -43,6 +43,15 @@ app.post('/save-pdf', upload.single('pdfFile'), (req, res) => {
   }
 });
 
+app.post('/git-update', (req, res) => {
+    try {
+        // update pinata files tbd
+    } catch (error) {
+        res.send("done");
+    }
+  });
+
+  
 app.use((error, req, res, next) => {
   console.error('Server error:', error);
   res.status(500).json({ message: 'Internal server error', error: error.message });
@@ -51,3 +60,4 @@ app.use((error, req, res, next) => {
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
+

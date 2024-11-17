@@ -6,6 +6,3 @@
 
 ## Main API Server 
 - cd api-server && node api.js
-
-## Pinata Alias Technique
-- alias "git push"="git push && node delete_upload.js"
