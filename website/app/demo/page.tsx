@@ -5,28 +5,46 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { FakeGetCommits , Commit, FakeGetCommitFiles, GitFile} from '@/utils/api';
+import { FakeGetCommits , Commit, FakeGetCommitFiles, GitFile, getCommitFiles, getCommits} from '@/utils/api';
 import { Card } from '@mui/material';
-
 export default function Page(){
   const [chosenCommit, chooseCommit] = React.useState<string >("") //chooses by sha
   const [files, setFiles] = React.useState<GitFile[]>([])
   const [commits, setCommits] = React.useState<Commit[]>([])
+  
+  const debug = false
 
   React.useEffect(()=>{
-    FakeGetCommits().then(val => {  
+    if (debug){
+      FakeGetCommits().then(val => {  
+          setCommits(val)
+  
+      })
+    }else{
+      getCommits().then(val => {  
         setCommits(val)
-
+        console.log("commits");
+        console.log(val);
+        
     })
+    }
   }, [])
   React.useEffect( () =>{
     if (chosenCommit != ""){
-      FakeGetCommitFiles(chosenCommit).then(
-        files => {setFiles(files)
-          console.log(files);
-          
-        }
-      )
+      if (debug){
+        FakeGetCommitFiles(chosenCommit).then(
+          files => {setFiles(files)
+            console.log(files);
+            
+          }
+        )
+      }else{
+        getCommitFiles(chosenCommit).then(
+          files => {setFiles(files)
+            console.log(files);
+          }
+        )
+      }
     }
   }, [chosenCommit])
   return (

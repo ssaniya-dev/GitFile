@@ -1,12 +1,12 @@
 const axios = require('axios');
 
 // GitHub repository details
-const owner = "Buchimi"; // e.g., "octocat"
-const repo = "some-repo";  // e.g., "hello-world"
+const owner = "RoyceAroc"; // e.g., "octocat"
+const repo = "utd-warehouse";  // e.g., "hello-world"
 const branch = "main"; // Specify the branch (default: main)
 
 // Personal Access Token (optional for private repos or higher rate limits)
-const token = ""; // Replace with your token or set to null for public repos
+const token = "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"; // Replace with your token or set to null for public repos
 export type Commit = {
     sha : string,
     author : string, 
@@ -31,12 +31,12 @@ export async function getCommits(debug_print = false) : Promise<Commit[]> {
             console.log(commits);
         }
 
-        const commit_list : Commit[] = commits.map((commit: { sha: any; commit: { author: { name: any; }; message: any; }; url : string; }) => {
+        const commit_list  = commits.map((commit: { sha: any; commit: { author: { name: any; }; message: any; }; url : string; }) => {
             console.log(`Commit: ${commit.sha}`);
             console.log(`Author: ${commit.commit.author.name}`);
             console.log(`Message: ${commit.commit.message}`);
             console.log("----");
-            return {commit : commit.sha, author : commit.commit.author.name, message : commit.commit.message, url : commit.url}
+            return {sha : commit.sha, author : commit.commit.author.name, message : commit.commit.message, url : commit.url}
         })
 
         return commit_list
