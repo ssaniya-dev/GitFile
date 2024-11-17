@@ -4,3 +4,6 @@ venv/
 **/.next/**
 **/.idea/**
 !website/public/*
+backend/pdf.js/*
+backend/api-server/node_modules/*
+backend/utd-warehouse*
