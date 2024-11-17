@@ -1,19 +1,20 @@
 {
-  "name": "pinata",
+  "name": "api-server",
   "version": "1.0.0",
-  "main": "delete.js",
+  "description": "",
+  "main": "api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "archiver": "^7.0.1",
+    "@web-std/file": "^3.0.3",
     "axios": "^1.7.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "form-data": "^4.0.1",
-    "tar": "^7.4.3"
+    "express": "^4.21.1",
+    "multer": "^1.4.5-lts.1",
+    "pinata": "^1.8.1"
   }
 }

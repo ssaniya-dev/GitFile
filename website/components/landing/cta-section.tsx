@@ -176,10 +176,10 @@ export default function CallToActionSection() {
               </div>
               <div className="z-10 mt-4 flex flex-col items-center text-center text-primary">
                 <h1 className="text-3xl font-bold lg:text-4xl">
-                  
+
                 </h1>
                 <Link
-                  href="#"
+                  href="/demo"
                   className={cn(
                     buttonVariants({
                       size: "lg",

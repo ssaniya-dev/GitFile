@@ -39,7 +39,6 @@ async function updatePinataFiles(sourcePath) {
     }
 }
 
-// Add this if you want to run it directly from command line
 if (require.main === module) {
     const sourcePath = process.argv[2];
     if (!sourcePath) {

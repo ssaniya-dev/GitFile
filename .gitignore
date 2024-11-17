@@ -4,3 +4,10 @@ venv/
 **/.next/**
 **/.idea/**
 !website/public/*
+backend/pdf.js/*
+backend/api-server/node_modules/*
+backend/utd-warehouse*
+backend/api-server/pinata/.env
+backend/api-server/pinata/node_modules
+backend/api-server/.env
+backend/api-server/node_modules
