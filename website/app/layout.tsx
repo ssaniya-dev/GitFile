@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
+import { getLogs } from "@/utils/api";
+import { getCommitFiles, getCommits } from "@/utils/remote-api";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -19,6 +21,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // getCommits()
+  // getCommitFiles("e9379dc9b7d37d42b393b047e7ba2d0183851354")
   return (
     <html lang="en" suppressHydrationWarning>
       <body
