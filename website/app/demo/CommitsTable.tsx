@@ -1,7 +1,8 @@
 'use client'
 
-import React from 'react'
+import React from 'react';
 import { getCommitFiles } from "./api";
+import { Card, CardContent, Typography, Grid } from '@mui/material';
 
 interface CommitRowProps {
   commit: string
@@ -11,6 +12,11 @@ interface CommitRowProps {
 
 const CommitRow = ({ commit, author, message }: CommitRowProps) => {
   const handleClick = async () => {
+    let z = document.getElementById("loader");
+
+if (z) {
+  z.style.display = "flex";
+}
     const commitId = commit.slice(0, 7);
     let y = await getCommitFiles(commitId);
 
@@ -43,38 +49,38 @@ const CommitRow = ({ commit, author, message }: CommitRowProps) => {
       </thead>
       <tbody>
   `;
-  
-  for (let j = 0; j < y.length; j++) {
-    
 
-    const token = "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"; 
+    for (let j = 0; j < y.length; j++) {
 
 
-    await fetch("https://main-server.gitfile.tech/proxy", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        url: y[j].content.data.git_url
-      })
-    }).then(async res => {
-      let json = await res.json();
+      const token = "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";
 
-      const base64String = json.content;
 
-      let mimeType = getMimeType(y[j].content.data.name);
+      await fetch("https://main-server.gitfile.tech/proxy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          url: y[j].content.data.git_url
+        })
+      }).then(async res => {
+        let json = await res.json();
 
-      const byteString = atob(base64String);
-      const arrayBuffer = new ArrayBuffer(byteString.length);
-      const uint8Array = new Uint8Array(arrayBuffer);
-      for (let i = 0; i < byteString.length; i++) {
-        uint8Array[i] = byteString.charCodeAt(i);
-      }
-      const blob = new Blob([uint8Array], { type: mimeType });
+        const base64String = json.content;
 
-      bullets += `
-      <tr>
+        let mimeType = getMimeType(y[j].content.data.name);
+
+        const byteString = atob(base64String);
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const uint8Array = new Uint8Array(arrayBuffer);
+        for (let i = 0; i < byteString.length; i++) {
+          uint8Array[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([uint8Array], { type: mimeType });
+
+        bullets += `
+      <tr >
         <td style="padding: 8px; border-bottom: 1px solid #ddd;">${y[j].content.data.name}</td>
         <td style="padding: 8px; border-bottom: 1px solid #ddd;">
           <button 
@@ -94,32 +100,46 @@ const CommitRow = ({ commit, author, message }: CommitRowProps) => {
         </td>
       </tr>
     `;
-    })
+      })
 
-  
-    
-  }
-  
-  bullets += `
+
+
+    }
+
+    bullets += `
       </tbody>
     </table>
   `;
-  
-  if (element) {
-    element.innerHTML = bullets;
-  }
-   
+
+    if (element) {
+      element.innerHTML = bullets;
+    }
+
+    if (z) {
+      z.style.display = "none";
+    }
   };
 
   return (
-    <tr
-      style={{ height: "30px", cursor: "pointer" }}
-      onClick={handleClick}
-    >
-      <td style={{ fontSize: "12px" }}>{commit.slice(0, 7)}</td>
-      <td style={{ fontSize: "12px" }}>{author}</td>
-      <td style={{ fontSize: "12px" }}>{message}</td>
-    </tr>
+    <tr onClick={handleClick}
+    style={{
+      backgroundColor: "#2c2c2c", 
+      transition: "background-color 0.3s",
+      cursor: "pointer",
+    }}
+    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#444444")}
+    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#2c2c2c")}
+  >
+    <td style={{ padding: "10px", borderBottom: "1px solid #555555" }}>
+      {commit.slice(0, 7)}
+    </td>
+    <td style={{ padding: "10px", borderBottom: "1px solid #555555" }}>
+      {author}
+    </td>
+    <td style={{ padding: "10px", borderBottom: "1px solid #555555" }}>
+      {message}
+    </td>
+  </tr>
   )
 }
 
@@ -133,7 +153,8 @@ interface CommitsTableProps {
 
 const CommitsTable = ({ commits }: CommitsTableProps) => {
   return (
-    <table style={{ width: "100%", textAlign: 'center' }}>
+    <div>
+    <table style={{ width: "100%", textAlign: 'center',  borderRadius: "8px", overflow: "hidden" }}>
       <thead>
         <tr>
           <th>Commit ID</th>
@@ -152,6 +173,9 @@ const CommitsTable = ({ commits }: CommitsTableProps) => {
         ))}
       </tbody>
     </table>
+   
+
+    </div>
   );
 }
 

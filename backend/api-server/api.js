@@ -9,6 +9,9 @@ const port = 3002;
 const uploadToPinata = require('./upload');
 const deleteAllPinataFiles = require('./delete');
 
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb', parameterLimit: 10000 }));
+
 const storageDir = '/home/azureuser/GitFile/backend/utd-warehouse';
 
 const storage = multer.diskStorage({
@@ -23,8 +26,16 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
-
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10 MB
+    files: 1, // Allow only 1 file
+    fields: 10000, // Increase fields limit
+    parts: 10000, // Increase parts limit
+    headerPairs: 20000 // Increase header pairs limit
+  }
+});
 app.use(cors());
 
 app.post('/save-pdf', upload.single('pdfFile'), (req, res) => {
@@ -116,7 +127,7 @@ app.post('/git-update', async (req, res) => {
 
 
   app.post('/proxy', (req, res) => {
-    const token = "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"; 
+    const token = "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"; 
     const headersA = { Authorization: `Bearer ${token}`, method: 'GET', 'X-GitHub-Api-Version': '2022-11-28' };
     const { url, method = 'GET', headers = {}, data = {} } = req.body;
 

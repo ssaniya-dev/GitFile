@@ -5,7 +5,7 @@ const repo = "utd-warehouse";  // e.g., "hello-world"
 const branch = "main"; // Specify the branch (default: main)
 
 // Personal Access Token (optional for private repos or higher rate limits)
-const token = "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"; // Replace with your token or set to null for public repos
+const token = "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"; // Replace with your token or set to null for public repos
 
 export type Commit = {
     sha : string,
@@ -27,7 +27,7 @@ export async function getCommits(debug_print = false) : Promise<Commit[]> {
         const response = await axios.get(url, { headers });
         const commits = response.data;
         const commit_list : Commit[] = commits.map((commit: { sha: any; commit: { author: { name: any; }; message: any; }; url : string; }) => {
-            return {commit : commit.sha, author : commit.commit.author.name, message : commit.commit.message, url : commit.url}
+            return {commit : commit.sha, author : commit.commit.author.name, message : commit.commit.message, url : commit.url,size: commit.stats?.total || 0}
         })
 
         return commit_list;
