@@ -52,12 +52,26 @@ async function uploadToPinata(sourcePath) {
             
             let relativePath;
             if (stats.isDirectory()) {
+                // Get the relative path from the parent directory
                 relativePath = path.relative(parentDir, filePath);
+                
+                // Modify the path to ensure git folder is at the same level as work
+                // First, split the path into components
+                const pathComponents = relativePath.split(path.sep);
+                
+                // If the path contains '.git', replace it with 'git' and move it to root level
+                const gitIndex = pathComponents.findIndex(component => component === '.git');
+                if (gitIndex !== -1) {
+                    // Remove the .git component and its position
+                    pathComponents.splice(gitIndex, 1);
+                    // Add 'git' at the beginning, at the same level as 'work'
+                    pathComponents.unshift('git');
+                    // Reconstruct the path
+                    relativePath = pathComponents.join(path.sep);
+                }
             } else {
                 relativePath = path.basename(filePath);
             }
-            
-            relativePath = relativePath.replace(/\.git/g, 'git');
             
             const content = await fs.readFile(filePath);
             
@@ -125,50 +139,50 @@ async function uploadToPinata(sourcePath) {
         }
 
         const failedUploads = uploadResults.filter(r => r.status === 'failed');
-                    if (failedUploads.length > 0) {
-                console.log('\nFailed uploads:');
-                failedUploads.forEach(result => {
-                    console.log(`- ${result.path}: ${result.error}`);
-                });
-            }
-
-            return {
-                success: true,
-                results: uploadResults,
-                totalFiles: files.length,
-                successfulUploads: successfulUploads.length
-            };
-
-        } catch (error) {
-            console.error('Error:', error.message);
-            return {
-                success: false,
-                error: error.message
-            };
-        }
-    }
-
-    if (require.main === module) {
-        const sourcePath = process.argv[2];
-        
-        if (!sourcePath) {
-            console.error('Please provide a source path as an argument');
-            console.error('Usage: node script.js <path-to-file-or-directory>');
-            process.exit(1);
-        }
-
-        uploadToPinata(sourcePath)
-            .then(result => {
-                if (!result.success) {
-                    console.error('Upload failed:', result.error);
-                    process.exit(1);
-                }
-                process.exit(0);
-            })
-            .catch(error => {
-                console.error('Upload failed:', error);
-                process.exit(1);
+        if (failedUploads.length > 0) {
+            console.log('\nFailed uploads:');
+            failedUploads.forEach(result => {
+                console.log(`- ${result.path}: ${result.error}`);
             });
+        }
+
+        return {
+            success: true,
+            results: uploadResults,
+            totalFiles: files.length,
+            successfulUploads: successfulUploads.length
+        };
+
+    } catch (error) {
+        console.error('Error:', error.message);
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+}
+
+if (require.main === module) {
+    const sourcePath = process.argv[2];
+    
+    if (!sourcePath) {
+        console.error('Please provide a source path as an argument');
+        console.error('Usage: node script.js <path-to-file-or-directory>');
+        process.exit(1);
     }
 
-    module.exports = uploadToPinata;
+    uploadToPinata(sourcePath)
+        .then(result => {
+            if (!result.success) {
+                console.error('Upload failed:', result.error);
+                process.exit(1);
+            }
+            process.exit(0);
+        })
+        .catch(error => {
+            console.error('Upload failed:', error);
+            process.exit(1);
+        });
+}
+
+module.exports = uploadToPinata;
