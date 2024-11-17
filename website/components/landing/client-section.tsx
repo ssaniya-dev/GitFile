@@ -14,32 +14,32 @@ export default function ClientSection() {
               <li>
                 <img
                   src={`https://cdn.magicui.design/companies/Google.svg`}
-                  className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
+                  className="h-8 w-28 px-2"
                 />
               </li>
               <li>
                 <img
                   src={`https://cdn.magicui.design/companies/Microsoft.svg`}
-                  className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
+                  className="h-8 w-28 px-2"
                 />
               </li>
               <li>
                 <img
                   src={`https://cdn.magicui.design/companies/GitHub.svg`}
-                  className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
+                  className="h-8 w-28 px-2"
                 />
               </li>
 
               <li>
                 <img
                   src={`https://cdn.magicui.design/companies/Uber.svg`}
-                  className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
+                  className="h-8 w-28 px-2"
                 />
               </li>
               <li>
                 <img
                   src={`https://cdn.magicui.design/companies/Notion.svg`}
-                  className="h-8 w-28 px-2 dark:brightness-0 dark:invert"
+                  className="h-8 w-28 px-2"
                 />
               </li>
             </ul>

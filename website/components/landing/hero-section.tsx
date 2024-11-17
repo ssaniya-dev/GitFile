@@ -28,7 +28,7 @@ export default function HeroSection() {
         <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
       </TextShimmer>
     </a>
-      <h1 className="bg-gradient-to-br dark:from-white from-black from-30% dark:to-white/40 to-black/40 bg-clip-text py-6 text-5xl font-medium leading-none tracking-tighter text-transparent text-balance sm:text-6xl md:text-7xl lg:text-8xl translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
+    <h1 className="bg-gradient-to-br from-[#00CED1] to-[#40E0D0] bg-clip-text py-6 text-5xl font-medium leading-none tracking-tighter text-transparent text-balance sm:text-6xl md:text-7xl lg:text-8xl translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
         a new way to
         <br className="hidden md:block" /> track your files.
       </h1>
@@ -52,8 +52,8 @@ export default function HeroSection() {
             size={400}
             duration={12}
             delay={11}
-            colorFrom="var(--color-one)"
-            colorTo="var(--color-two)"
+            colorFrom="#00CED1"
+            colorTo="#40E0D0"
           />
         </div>
       </div>

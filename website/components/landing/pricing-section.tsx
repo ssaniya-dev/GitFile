@@ -129,7 +129,7 @@ export default function PricingSection() {
               className={cn(
                 "relative flex max-w-[400px] flex-col gap-8 rounded-2xl border p-4 text-black dark:text-white overflow-hidden",
                 {
-                  "border-2 border-[var(--color-one)] dark:border-[var(--color-one)]":
+                  "border-2 border-[#40E0D0]":
                     price.isMostPopular,
                 }
               )}
@@ -176,10 +176,10 @@ export default function PricingSection() {
               </motion.div>
 
               <Button
-                className={cn(
-                  "group relative w-full gap-2 overflow-hidden text-lg font-semibold tracking-tighter",
-                  "transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-2"
-                )}
+  className={cn(
+    "group relative w-full gap-2 overflow-hidden text-lg font-semibold tracking-tighter",
+    "transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-[#40E0D0] hover:ring-offset-2"
+  )}
                 disabled={isLoading}
                 onClick={() => void onSubscribeClick(price.id)}
               >
@@ -194,7 +194,7 @@ export default function PricingSection() {
                 )}
               </Button>
 
-              <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0" />
+              <hr className="m-0 h-px w-full border-none bg-gradient-to-br from-[#00CED1] to-[#40E0D0]" />
               {price.features && price.features.length > 0 && (
                 <ul className="flex flex-col gap-2 font-normal">
                   {price.features.map((feature: any, idx: any) => (
