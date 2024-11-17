@@ -4,3 +4,4 @@ venv/
 **/.next/**
 **/.idea/**
 !website/public/*
+.env
