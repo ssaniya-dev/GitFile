@@ -14,7 +14,7 @@ const menuItem = [
     href: "/features",
   },
   {
-    id: 4,
+    id: 2,
     label: "Contact Us",
     href: "#",
   },
