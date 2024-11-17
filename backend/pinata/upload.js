@@ -38,41 +38,15 @@ async function uploadToPinata(sourcePath) {
             return filePaths;
         }
 
-        const stats = await fs.stat(sourcePath);
-        const files = stats.isDirectory() ? await getAllFiles(sourcePath) : [sourcePath];
+        const files = await getAllFiles(sourcePath);
         const uploadResults = [];
-
-        const parentDir = path.dirname(sourcePath);
-        const rootFolderName = path.basename(sourcePath);
 
         console.log(`Found ${files.length} files to upload`);
 
         for (const filePath of files) {
             const formData = new FormData();
             
-            let relativePath;
-            if (stats.isDirectory()) {
-                // Get the relative path from the parent directory
-                relativePath = path.relative(parentDir, filePath);
-                
-                // Modify the path to ensure git folder is at the same level as work
-                // First, split the path into components
-                const pathComponents = relativePath.split(path.sep);
-                
-                // If the path contains '.git', replace it with 'git' and move it to root level
-                const gitIndex = pathComponents.findIndex(component => component === '.git');
-                if (gitIndex !== -1) {
-                    // Remove the .git component and its position
-                    pathComponents.splice(gitIndex, 1);
-                    // Add 'git' at the beginning, at the same level as 'work'
-                    pathComponents.unshift('git');
-                    // Reconstruct the path
-                    relativePath = pathComponents.join(path.sep);
-                }
-            } else {
-                relativePath = path.basename(filePath);
-            }
-            
+            const relativePath = path.relative(sourcePath, filePath);
             const content = await fs.readFile(filePath);
             
             formData.append('file', content, {
@@ -167,7 +141,7 @@ if (require.main === module) {
     
     if (!sourcePath) {
         console.error('Please provide a source path as an argument');
-        console.error('Usage: node script.js <path-to-file-or-directory>');
+        console.error('Usage: node script.js <path-to-root-folder>');
         process.exit(1);
     }
 
