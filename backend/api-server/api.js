@@ -3,7 +3,7 @@ const cors = require('cors');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-
+const axios = require('axios')
 const app = express();
 const port = 3002;
 
@@ -52,6 +52,25 @@ app.post('/git-update', (req, res) => {
   });
 
   
+  app.use(express.json());
+
+
+  app.post('/proxy', (req, res) => {
+    const token = "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"; 
+    const headersA = { Authorization: `Bearer ${token}`, method: 'GET', 'X-GitHub-Api-Version': '2022-11-28' };
+    const { url, method = 'GET', headers = {}, data = {} } = req.body;
+
+    axios({ method, url, headers: headersA })
+      .then(response => {
+        res.status(response.status).json(response.data);
+      })
+      .catch(error => {
+        console.error('Proxy error:', error);
+        res.status(500).json({ message: 'Proxy error', error: error.message });
+      });
+  });
+  
+
 app.use((error, req, res, next) => {
   console.error('Server error:', error);
   res.status(500).json({ message: 'Internal server error', error: error.message });

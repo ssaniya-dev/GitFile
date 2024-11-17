@@ -17,52 +17,103 @@ const CommitRow = ({ commit, author, message }: CommitRowProps) => {
     const element = document.getElementById('hackutd');
 
     function getMimeType(filename) {
-        const extension = filename.split('.').pop().toLowerCase();
-        const mimeTypes = {
-            'txt': 'text/plain',
-            'pdf': 'application/pdf',
-            'jpg': 'image/jpeg',
-            'png': 'image/png',
-            'json': 'application/json',
-            'html': 'text/html',
-            'csv': 'text/csv',
-            // Add more mime types as needed
-        };
-        return mimeTypes[extension] || 'application/octet-stream';  // Default to binary stream if unknown
+      const extension = filename.split('.').pop().toLowerCase();
+      const mimeTypes = {
+        'txt': 'text/plain',
+        'pdf': 'application/pdf',
+        'jpg': 'image/jpeg',
+        'png': 'image/png',
+        'json': 'application/json',
+        'html': 'text/html',
+        'csv': 'text/csv',
+      };
+      return mimeTypes[extension] || 'application/octet-stream';
     }
+
+
+
+
+    let bullets = `
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th style="border-bottom: 2px solid #ddd; padding: 8px; text-align: left;">Filename</th>
+          <th style="border-bottom: 2px solid #ddd; padding: 8px; text-align: left;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
   
-   /* // Create a Blob from the content with dynamic MIME type
-    const mimeType = getMimeType(fileData.filename);
-    const blob = new Blob([fileData.content], { type: mimeType });
+  for (let j = 0; j < y.length; j++) {
     
-    // Create a download link for the file
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = fileData.filename;
+
+    const token = "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"; 
+
+
+    await fetch("https://main-server.gitfile.tech/proxy", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        url: y[j].content.data.git_url
+      })
+    }).then(async res => {
+      let json = await res.json();
+
+      const base64String = json.content;
+
+      let mimeType = getMimeType(y[j].content.data.name);
+
+      const byteString = atob(base64String);
+      const arrayBuffer = new ArrayBuffer(byteString.length);
+      const uint8Array = new Uint8Array(arrayBuffer);
+      for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([uint8Array], { type: mimeType });
+
+      bullets += `
+      <tr>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${y[j].content.data.name}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+          <button 
+            style="
+              background-color: #5c84e0; 
+              color: white; 
+              border: none; 
+              padding: 5px 10px; 
+              border-radius: 5px; 
+              cursor: pointer;
+              transition: background-color 0.3s ease;
+            "
+            onclick="window.open('${URL.createObjectURL(blob)}', '_blank')"
+          >
+            Open
+          </button>
+        </td>
+      </tr>
+    `;
+    })
+
+  
     
-    // Trigger the download
-    link.click();*/
-
-    console.log(y);
-
-    let bullets = `<ul>`;
-    for (let i=0; i<y.length; i++ ){
-      let fileData = y[i];
-      const mimeType = getMimeType(fileData.filename);
-      const blob = new Blob([fileData.content], { type: mimeType });
-
-      bullets += `<li> ${y[i].filename} - <a href="${URL.createObjectURL(blob)}">Link</a> </li>`
-    }
-
-    bullets += `</ul>`
-    if (element) {
-      element.innerHTML = bullets;
-    }
+  }
+  
+  bullets += `
+      </tbody>
+    </table>
+  `;
+  
+  if (element) {
+    element.innerHTML = bullets;
+  }
+   
   };
 
   return (
-    <tr 
-      style={{ height: "30px", cursor: "pointer" }} 
+    <tr
+      style={{ height: "30px", cursor: "pointer" }}
       onClick={handleClick}
     >
       <td style={{ fontSize: "12px" }}>{commit.slice(0, 7)}</td>
@@ -82,7 +133,7 @@ interface CommitsTableProps {
 
 const CommitsTable = ({ commits }: CommitsTableProps) => {
   return (
-    <table style={{ width: "100%", textAlign: 'center'}}>
+    <table style={{ width: "100%", textAlign: 'center' }}>
       <thead>
         <tr>
           <th>Commit ID</th>

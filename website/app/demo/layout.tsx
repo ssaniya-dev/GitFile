@@ -14,23 +14,23 @@ export default async function MarketingLayout({
   return (
     <>
       <div style={{ display: "flex", flexDirection: "row", height: "100vh" }}>
-      <div style={{ 
-          width: "50%", 
-          padding: "20px", 
-          boxSizing: "border-box" 
+        <div style={{
+          width: "50%",
+          padding: "20px",
+          boxSizing: "border-box"
         }}>
-          <div style={{overflowY: 'auto', maxHeight: '45vh', marginTop: '5vh'}}>
+          <div style={{ overflowY: 'auto', maxHeight: '45vh', marginTop: '5vh' }}>
             <CommitsTable commits={commits} />
           </div>
-          <div style={{ maxHeight: '10vh', marginTop: '4vh'}}>
-          Click on a revision version from above to display the files
+          <div style={{ maxHeight: '10vh', marginTop: '4vh' }}>
+            Click on a revision version from above to display the files
           </div>
-          <div id='hackutd' style={{overflowY: 'auto', maxHeight: '30vh', marginTop: '2vh'}}>
+          <div id='hackutd' style={{ overflowY: 'auto', maxHeight: '30vh', marginTop: '2vh' }}>
           </div>
         </div>
-        <div style={{ 
-          width: "50%", 
-          padding: "10px", 
+        <div style={{
+          width: "50%",
+          padding: "0px",
           boxSizing: "border-box"
         }}>
           <iframe

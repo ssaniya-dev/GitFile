@@ -5,7 +5,7 @@ const repo = "utd-warehouse";  // e.g., "hello-world"
 const branch = "main"; // Specify the branch (default: main)
 
 // Personal Access Token (optional for private repos or higher rate limits)
-const token = "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"; // Replace with your token or set to null for public repos
+const token = "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"; // Replace with your token or set to null for public repos
 export type Commit = {
     sha : string,
     author : string, 
@@ -56,8 +56,7 @@ export async function getCommitFiles(commitSha: string, debug_print : boolean = 
                     const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${item.path}?ref=${commitSha}`;
                     try {
                         const fileResponse = await axios.get(fileUrl, { headers });
-                        const content = Buffer.from(fileResponse.data.content, 'base64').toString('utf-8');
-                        
+                        let content = fileResponse;
                         return {
                             filename: item.path,
                             status: 'unchanged',
